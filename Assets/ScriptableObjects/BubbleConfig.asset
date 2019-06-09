@@ -16,43 +16,54 @@ MonoBehaviour:
     color:
       serializedVersion: 2
       rgba: 4287256808
+    display: 2
   - number: 4
     color:
       serializedVersion: 2
       rgba: 4280821984
+    display: 4
   - number: 8
     color:
       serializedVersion: 2
       rgba: 4280931320
+    display: 8
   - number: 16
     color:
       serializedVersion: 2
       rgba: 4281698815
+    display: 16
   - number: 32
     color:
       serializedVersion: 2
       rgba: 4281059612
+    display: 32
   - number: 64
     color:
       serializedVersion: 2
       rgba: 4288334118
+    display: 64
   - number: 128
     color:
       serializedVersion: 2
       rgba: 4294950775
+    display: 128
   - number: 256
     color:
       serializedVersion: 2
       rgba: 4294934325
+    display: 256
   - number: 512
     color:
       serializedVersion: 2
       rgba: 4292050619
+    display: 512
   - number: 1024
     color:
       serializedVersion: 2
       rgba: 4279583410
+    display: 1K
   - number: 2048
     color:
       serializedVersion: 2
       rgba: 4291579988
+    display: 2K

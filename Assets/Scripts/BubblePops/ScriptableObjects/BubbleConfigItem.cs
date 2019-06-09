@@ -9,5 +9,6 @@ namespace BubblePops.ScriptableObjects
 	{
 		public int number;
 		public Color32 color;
+		public string display;
 	}
 }
