@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3430207d7dc9cf4459afeae982d15b51, type: 3}
+  m_Name: BubbleConfig
+  m_EditorClassIdentifier: 
+  configs:
+  - number: 2
+    color:
+      serializedVersion: 2
+      rgba: 4287256808
+  - number: 4
+    color:
+      serializedVersion: 2
+      rgba: 4280821984
+  - number: 8
+    color:
+      serializedVersion: 2
+      rgba: 4280931320
+  - number: 16
+    color:
+      serializedVersion: 2
+      rgba: 4281698815
+  - number: 32
+    color:
+      serializedVersion: 2
+      rgba: 4281059612
+  - number: 64
+    color:
+      serializedVersion: 2
+      rgba: 4288334118
+  - number: 128
+    color:
+      serializedVersion: 2
+      rgba: 4294950775
+  - number: 256
+    color:
+      serializedVersion: 2
+      rgba: 4294934325
+  - number: 512
+    color:
+      serializedVersion: 2
+      rgba: 4292050619
+  - number: 1024
+    color:
+      serializedVersion: 2
+      rgba: 4279583410
+  - number: 2048
+    color:
+      serializedVersion: 2
+      rgba: 4291579988
