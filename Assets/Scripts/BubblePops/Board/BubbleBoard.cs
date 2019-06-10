@@ -67,7 +67,7 @@ namespace BubblePops.Board
 
 			for (int y = 0, i = 0; y < _boardHeight; y++)
 			{
-				for (int x = 0; x < _boardWidth; x++)
+				for (int x = 0 ; x < _boardWidth ; x++)
 				{
 					CreateBubbleSlot(x, y, i++);
 				}
@@ -84,7 +84,7 @@ namespace BubblePops.Board
 		{
 			Vector3 position;
 			position.x = (x + y * 0.5f - y / 2) * _bubbleSize;
-			position.y = y * _bubbleSize - _bubbleSlotsContainer.position.y;
+			position.y = -y * _bubbleSize;// - _bubbleSlotsContainer.position.y;
 			position.z = 0f;
 
 			var bubbleSlot = Instantiate<BubbleSlotView>(_bubbleSlotPrefab);
@@ -95,8 +95,10 @@ namespace BubblePops.Board
 		}
 
 		private void CenterGrid()
-		{
-			_bubbleSlotsContainer.position += Vector3.left * (_bubbleSize * _boardWidth / 2f - _bubbleSize / 4f);
+		{	
+			var x = -_bubbleSize * _boardWidth / 2f - _bubbleSize / 4f;
+			var y = _bubbleSize * _boardHeight;
+			_bubbleSlotsContainer.position = new Vector3(x,y,0f);
 		}
 
 		private void PlaceSideBouncers()
@@ -110,7 +112,7 @@ namespace BubblePops.Board
 		{
 			var random = new System.Random();
 			var bubbleConfigs = _bubbleConfig.configs;
-			var allRowsButFirst = _bubbleSlots.Skip(6);
+			var allRowsButFirst = _bubbleSlots.Take(_bubbleSlots.Length - _boardWidth);
 			foreach (var bubbleSlot in allRowsButFirst) 
 			{
 				bubbleSlot.PlaceBubble(bubbleConfigs[random.Next(bubbleConfigs.Count)]);
@@ -122,7 +124,7 @@ namespace BubblePops.Board
 			var bubbleSlot = _bubbleSlots[Array.IndexOf(_bubbleSlots,bubbleSlotView.BubbleSlot())];
 			bubbleSlot.PlaceBubble(bubbleConfig); 
 
-			if (_bubbleSlots.Take(6).Any(slot => slot.HasBubble()))
+			if (_bubbleSlots.Skip(Math.Max(0, _bubbleSlots.Length - _boardWidth)).Any(slot => slot.HasBubble()))
 			{
 				AddNewRow();
 			}
@@ -131,16 +133,17 @@ namespace BubblePops.Board
 		private void AddNewRow()
 		{
 			var updatedBubbleSlots = new BubbleSlot[_bubbleSlots.Length + _boardWidth];
-			Array.Copy(_bubbleSlots, 0, updatedBubbleSlots, _boardWidth, _bubbleSlots.Length);
+			Array.Copy(_bubbleSlots, updatedBubbleSlots, _bubbleSlots.Length);
 			_bubbleSlots = updatedBubbleSlots;
 			
 			_bubbleSlotsContainer.position += Vector3.up * _bubbleSize;
-			for (int x = 0, i = 0; x < _boardWidth; x++)
+			
+			var newRowIndex = _bubbleSlots.Length / _boardWidth - 1;
+			for (int x = 0, i = updatedBubbleSlots.Length - _boardWidth; x < _boardWidth; x++)
 			{
-				CreateBubbleSlot(x, 0, i++);
+				CreateBubbleSlot(x, newRowIndex, i++);
 			}
 		}
-
 	}
 
 
