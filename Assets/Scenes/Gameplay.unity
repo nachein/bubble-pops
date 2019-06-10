@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _boardWidth: 6
-  _boardHeight: 6
+  _boardHeight: 10
   _bubbleConfig: {fileID: 11400000, guid: 4f144bd542cc39d49afb89cd6d810af4, type: 2}
   _bubbleSlotPrefab: {fileID: 114909315850429976, guid: 85656f5b3e2f76e4a9328db36b78e28f,
     type: 2}

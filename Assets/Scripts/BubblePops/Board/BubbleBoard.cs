@@ -83,7 +83,7 @@ namespace BubblePops.Board
 				}
 			}
 
-			CenterGrid();
+			CenterBoard();
 			PlaceSideBouncers();
 
 			CreateInitialBoardBubbles();
@@ -104,10 +104,10 @@ namespace BubblePops.Board
 			_bubbleSlots[i] = new BubbleSlot(bubbleSlotView);
 		}
 
-		private void CenterGrid()
+		private void CenterBoard()
 		{	
 			var x = -_bubbleSize * _boardWidth / 2f - _bubbleSize / 4f;
-			var y = _bubbleSize * _boardHeight;
+			var y = _bubbleSize * _boardHeight / 1.5f;
 			_bubbleSlotsContainer.position = new Vector3(x,y,0f);
 		}
 
