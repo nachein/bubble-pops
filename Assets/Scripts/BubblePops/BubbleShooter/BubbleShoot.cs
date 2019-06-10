@@ -13,7 +13,6 @@ namespace BubblePops.BubbleShooter
 		public event Action<BubbleSlotView, BubbleConfigItem> OnBubbleAdded = delegate {};
 
 		private BubbleAmmo _bubbleAmmo;
-		private BubbleAmmoView _bubbleAmmoToShoot;
 
 		void Awake()
 		{
@@ -22,29 +21,28 @@ namespace BubblePops.BubbleShooter
 
 		public void Shoot(BubbleAimTarget aimTarget)
 		{
-			_bubbleAmmoToShoot = _bubbleAmmo.TakeCurrentAmmo();
-			StartCoroutine(ShootBubble(aimTarget));
+			StartCoroutine(ShootBubble(aimTarget, _bubbleAmmo.TakeCurrentAmmo()));
 		}
 
-		private IEnumerator ShootBubble(BubbleAimTarget aimTarget)
+		private IEnumerator ShootBubble(BubbleAimTarget aimTarget, BubbleAmmoView ammoView)
 		{
 			if (aimTarget.Bounces())
-				yield return StartCoroutine(MoveTo(aimTarget.BouncePosition()));
+				yield return StartCoroutine(MoveTo(aimTarget.BouncePosition(), ammoView));
 
-			yield return StartCoroutine(MoveTo(aimTarget.BubbleSlotView().transform.position));
+			yield return StartCoroutine(MoveTo(aimTarget.BubbleSlotView().transform.position, ammoView));
 
-			OnBubbleAdded(aimTarget.BubbleSlotView(), _bubbleAmmoToShoot.BubbleConfig());
+			OnBubbleAdded(aimTarget.BubbleSlotView(), ammoView.BubbleConfig());
 
 			yield return null;
 
-			Destroy(_bubbleAmmoToShoot.gameObject);
+			Destroy(ammoView.gameObject);
 		}
 
-		private IEnumerator MoveTo(Vector3 destination)
+		private IEnumerator MoveTo(Vector3 destination, BubbleAmmoView ammoView)
 		{
-			while((_bubbleAmmoToShoot.transform.position - destination).sqrMagnitude > 0.0001f)
+			while((ammoView.transform.position - destination).sqrMagnitude > 0.0001f)
 			{
-				_bubbleAmmoToShoot.transform.position = Vector3.MoveTowards(_bubbleAmmoToShoot.transform.position, destination, 1.0f * 0.5f);
+				ammoView.transform.position = Vector3.MoveTowards(ammoView.transform.position, destination, 1.0f * 0.5f);
 				yield return null;
 			}
 		}
