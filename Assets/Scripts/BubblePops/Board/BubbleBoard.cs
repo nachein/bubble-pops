@@ -106,7 +106,7 @@ namespace BubblePops.Board
 
 		private void CenterBoard()
 		{	
-			var x = -_bubbleSize * _boardWidth / 2f - _bubbleSize / 4f;
+			var x = -_bubbleSize * _boardWidth / 2f + _bubbleSize / 4f;
 			var y = _bubbleSize * _boardHeight / 1.5f;
 			_bubbleSlotsContainer.position = new Vector3(x,y,0f);
 		}
@@ -121,7 +121,7 @@ namespace BubblePops.Board
 		private void CreateInitialBoardBubbles()
 		{
 			var random = new System.Random();
-			var bubbleConfigs = _bubbleConfig.configs;
+			var bubbleConfigs = _bubbleConfig.configs.Where(config => config.number < 1024).ToList();
 			var allRowsButFirst = _bubbleSlots.Take(_bubbleSlots.Length - _boardWidth);
 			foreach (var bubbleSlot in allRowsButFirst) 
 			{

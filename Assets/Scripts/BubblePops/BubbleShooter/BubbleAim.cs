@@ -163,7 +163,8 @@ namespace BubblePops.BubbleShooter
 			if (hit.transform.gameObject.tag == Tags.BUBBLE_SLOT) 
 			{
 				var bubbleSlotView = hit.transform.GetComponent<BubbleSlotView>();
-				return bubbleSlotView.IsEmpty() && !bubbleSlotView.IsReserved();
+				if (bubbleSlotView != null)
+					return bubbleSlotView.IsEmpty() && !bubbleSlotView.IsReserved();
 			}
 
 			return false;
