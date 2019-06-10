@@ -25,6 +25,7 @@ namespace BubblePops.Board
 
 		[Header("Behaviour Refernces")]
 		[SerializeField] BubbleAim _bubbleAim;
+		[SerializeField] BubbleAmmo _bubbleAmmo;
 
 		private BubbleSlot[] _bubbleSlots;
 		private float _bubbleSize;
@@ -72,7 +73,8 @@ namespace BubblePops.Board
 			CenterGrid();
 			PlaceSideBouncers();
 
-			CreateInitialBubbles();
+			CreateInitialBoardBubbles();
+			_bubbleAmmo.Setup();
 		}
 
 		private void CreateBubbleSlot(int x, int y, int i)
@@ -101,7 +103,7 @@ namespace BubblePops.Board
 			LeftSideBouncer.transform.position += Vector3.left * offset;
 		}
 
-		private void CreateInitialBubbles()
+		private void CreateInitialBoardBubbles()
 		{
 			var random = new System.Random();
 			var bubbleConfigs = _bubbleConfig.configs;
