@@ -93,7 +93,7 @@ namespace BubblePops.Board
 		{
 			Vector3 position;
 			position.x = (x + y * 0.5f - y / 2) * _bubbleSize;
-			position.y = -y * _bubbleSize;// - _bubbleSlotsContainer.position.y;
+			position.y = -y * _bubbleSize;
 			position.z = 0f;
 
 			var bubbleSlotView = Instantiate<BubbleSlotView>(_bubbleSlotPrefab);
@@ -133,14 +133,77 @@ namespace BubblePops.Board
 			var bubbleSlot = _bubbleSlots[Array.IndexOf(_bubbleSlots,bubbleSlotView.BubbleSlot())];
 			bubbleSlot.PlaceBubble(bubbleConfig); 
 
-			var adjacentBubbles = GetAdjacentBubbles(bubbleSlot, new List<BubbleSlot> { bubbleSlot });
-			foreach (var adjacent in adjacentBubbles) {
-				print(adjacent.BubbleConfig().number);           
-				// TODO: calculate score
+			var adjacentBubblesWithSameScore = GetAdjacentBubbles(bubbleSlot, new List<BubbleSlot> { bubbleSlot });
+			if (adjacentBubblesWithSameScore.Count > 1)
+			{
+				var newBubbleNumber = MergeBubbles(bubbleConfig.number, adjacentBubblesWithSameScore.Count);
+				var bubbleToMerge = adjacentBubblesWithSameScore.Last();
+				foreach (var adjacent in adjacentBubblesWithSameScore) 
+				{
+					if (HasAdjacentWithNumber(adjacent, newBubbleNumber)) 
+					{
+						bubbleToMerge = adjacent;
+						break;
+					}
+				}
+
+				foreach (var otherAdjacent in adjacentBubblesWithSameScore.Where(adjacent => adjacent.Id() != bubbleToMerge.Id()))
+				{
+					otherAdjacent.Pop();
+				}
+
+				RemoveEmptyRows();
+
+				var newBubbleConfig = _bubbleConfig.configs.FirstOrDefault(config => config.number == newBubbleNumber);
+				BubbleAddedToBoard(bubbleToMerge.View(), newBubbleConfig);
 			}
 		}
 
-		private void AddNewRow()
+        private void RemoveEmptyRows()
+        {
+			var lastIndexWithoutBubble = _bubbleSlots.Length - 1;
+            for (var i = _bubbleSlots.Length - 1; i >= 0; i--) 
+			{
+				if (_bubbleSlots[i].HasBubble() || _bubbleSlots[i].IsReserved())
+					break;
+				else
+					lastIndexWithoutBubble = i;
+			}
+
+			var emptyRowsCount = (_bubbleSlots.Length - 1 - lastIndexWithoutBubble) / _boardWidth;
+			if (emptyRowsCount == 0)
+				return;
+
+			var rowsToDelete = emptyRowsCount - 1;
+
+			foreach (var bubbleSlot in _bubbleSlots.Reverse().Take(rowsToDelete * _boardWidth)) 
+			{
+				Destroy(bubbleSlot.View());
+			}
+
+			var updatedBubbleSlots = new BubbleSlot[_bubbleSlots.Length - rowsToDelete * _boardWidth];
+			Array.Copy(_bubbleSlots, updatedBubbleSlots, updatedBubbleSlots.Length);
+			_bubbleSlots = updatedBubbleSlots;
+
+			_bubbleSlotsContainer.position -= Vector3.up * _bubbleSize * rowsToDelete;
+        }
+
+        private bool HasAdjacentWithNumber(BubbleSlot bubbleSlot, int bubbleNumber)
+        {
+            var adjacentIndexes = GetAdjacentIndexes(bubbleSlot);
+			foreach (var adjacentBubbleIndex in adjacentIndexes) 
+			{
+				var adjacentBubble = _bubbleSlots[adjacentBubbleIndex];
+				if (adjacentBubble.HasBubble() && adjacentBubble.BubbleConfig().number == bubbleNumber)
+				{
+					return true;
+				}
+			}
+
+			return false;
+        }
+
+        private void AddNewRow()
 		{
 			var updatedBubbleSlots = new BubbleSlot[_bubbleSlots.Length + _boardWidth];
 			Array.Copy(_bubbleSlots, updatedBubbleSlots, _bubbleSlots.Length);
@@ -239,6 +302,11 @@ namespace BubblePops.Board
 			}
 
 			return indexes;
+		}
+
+		private int MergeBubbles(int number, int times)
+		{
+			return number * (int)Math.Pow(2, times - 1);
 		}
 	}
 

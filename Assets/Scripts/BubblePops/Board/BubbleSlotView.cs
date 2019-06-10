@@ -62,5 +62,11 @@ namespace BubblePops.Board
         {
             _bubbleSlot.Reserve();
         }
+
+		public void Pop()
+		{
+			_text.SetText(string.Empty);
+			_renderer.color = new Color(1f,1f,1f, 0f);
+		}
     }
 }

@@ -53,6 +53,18 @@ namespace BubblePops.Board
         {
             return _id;
         }
+
+        public BubbleSlotView View()
+        {
+            return _view;
+        }
+
+        public void Pop()
+        {
+            _isReserved = false;
+            _bubbleConfig = null;
+            _view.Pop();
+        }
     }
 
 
