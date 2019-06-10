@@ -84,7 +84,7 @@ namespace BubblePops.Board
 		{
 			Vector3 position;
 			position.x = (x + y * 0.5f - y / 2) * _bubbleSize;
-			position.y = y * _bubbleSize;
+			position.y = y * _bubbleSize - _bubbleSlotsContainer.position.y;
 			position.z = 0f;
 
 			var bubbleSlot = Instantiate<BubbleSlotView>(_bubbleSlotPrefab);
@@ -119,8 +119,26 @@ namespace BubblePops.Board
 
 		private void BubbleAddedToBoard(BubbleSlotView bubbleSlotView, BubbleConfigItem bubbleConfig)
 		{
-			var bubbleSlot = bubbleSlotView.BubbleSlot();
-			bubbleSlot.PlaceBubble(bubbleConfig);  
+			var bubbleSlot = _bubbleSlots[Array.IndexOf(_bubbleSlots,bubbleSlotView.BubbleSlot())];
+			bubbleSlot.PlaceBubble(bubbleConfig); 
+
+			if (_bubbleSlots.Take(6).Any(slot => slot.HasBubble()))
+			{
+				AddNewRow();
+			}
+		}
+
+		private void AddNewRow()
+		{
+			var updatedBubbleSlots = new BubbleSlot[_bubbleSlots.Length + _boardWidth];
+			Array.Copy(_bubbleSlots, 0, updatedBubbleSlots, _boardWidth, _bubbleSlots.Length);
+			_bubbleSlots = updatedBubbleSlots;
+			
+			_bubbleSlotsContainer.position += Vector3.up * _bubbleSize;
+			for (int x = 0, i = 0; x < _boardWidth; x++)
+			{
+				CreateBubbleSlot(x, 0, i++);
+			}
 		}
 
 	}

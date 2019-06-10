@@ -37,7 +37,7 @@ namespace BubblePops.BubbleShooter
 
 			yield return null;
 
-			Destroy(_bubbleAmmoToShoot);
+			Destroy(_bubbleAmmoToShoot.gameObject);
 		}
 
 		private IEnumerator MoveTo(Vector3 destination)
