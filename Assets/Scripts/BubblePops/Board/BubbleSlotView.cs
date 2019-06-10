@@ -28,6 +28,11 @@ namespace BubblePops.Board
             _bubbleSlot = bubbleSlot;
         }
 
+		public BubbleSlot BubbleSlot()
+		{
+			return _bubbleSlot;
+		}
+
 		public bool HasBubble()
 		{
 			return _bubbleSlot.HasBubble();

@@ -1,7 +1,7 @@
 using BubblePops.Board;
 using UnityEngine;
 
-namespace BubblePops.BubbleShoooter
+namespace BubblePops.BubbleShooter
 {
     public class BubbleAimTarget
 	{

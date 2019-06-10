@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using BubblePops.ScriptableObjects;
 using System;
-using BubblePops.BubbleShoooter;
+using BubblePops.BubbleShooter;
 
 namespace BubblePops.Board
 {
@@ -26,6 +26,7 @@ namespace BubblePops.Board
 		[Header("Behaviour Refernces")]
 		[SerializeField] BubbleAim _bubbleAim;
 		[SerializeField] BubbleAmmo _bubbleAmmo;
+		[SerializeField] BubbleShoot _bubbleShoot;
 
 		private BubbleSlot[] _bubbleSlots;
 		private float _bubbleSize;
@@ -35,6 +36,8 @@ namespace BubblePops.Board
 		{
 			_bubbleAim.OnBubbleSlotPreviewActivated += ActivateBubbleSlotPreview;
         	_bubbleAim.OnNoBubbleSlotPreviewActivated += DeactivateBubbleSlotPreview;
+
+			_bubbleShoot.OnBubbleAdded += BubbleAddedToBoard;
 		}
 
 		private void ActivateBubbleSlotPreview(BubbleSlotView bubbleSlot)
@@ -113,6 +116,13 @@ namespace BubblePops.Board
 				bubbleSlot.PlaceBubble(bubbleConfigs[random.Next(bubbleConfigs.Count)]);
 			}
 		}
+
+		private void BubbleAddedToBoard(BubbleSlotView bubbleSlotView, BubbleConfigItem bubbleConfig)
+		{
+			var bubbleSlot = bubbleSlotView.BubbleSlot();
+			bubbleSlot.PlaceBubble(bubbleConfig);  
+		}
+
 	}
 
 

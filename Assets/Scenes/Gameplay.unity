@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 132904461}
   - component: {fileID: 132904462}
   - component: {fileID: 132904463}
+  - component: {fileID: 132904464}
   m_Layer: 0
   m_Name: BubbleShooter
   m_TagString: Untagged
@@ -248,10 +249,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bubbleConfig: {fileID: 11400000, guid: 4f144bd542cc39d49afb89cd6d810af4, type: 2}
-  _currentBulletContainer: {fileID: 0}
-  _nextBulletContainer: {fileID: 0}
   _bubbleAmmoPrefab: {fileID: 114725011909025930, guid: afe40440b460e984d82c6084f0fc3d8b,
     type: 2}
+--- !u!114 &132904464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 132904460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff22ab08d6672f4f937cec318095861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &185564985
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,6 +315,7 @@ MonoBehaviour:
   RightSideBouncer: {fileID: 1633368941}
   _bubbleAim: {fileID: 132904462}
   _bubbleAmmo: {fileID: 132904463}
+  _bubbleShoot: {fileID: 132904464}
 --- !u!1 &192068012
 GameObject:
   m_ObjectHideFlags: 0

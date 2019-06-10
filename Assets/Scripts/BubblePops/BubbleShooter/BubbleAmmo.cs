@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-namespace BubblePops.BubbleShoooter 
+namespace BubblePops.BubbleShooter 
 {
 	public class BubbleAmmo : MonoBehaviour
 	{
@@ -22,7 +22,7 @@ namespace BubblePops.BubbleShoooter
 			_ammoSize = _bubbleAmmoPrefab.GetComponent<Renderer>().bounds.size.x;
 		}
 
-		public void Setup()
+        public void Setup()
 		{
 			_currentBubbleAmmo = Instantiate(_bubbleAmmoPrefab, CurrentAmmoPosition(), Quaternion.identity);
 			_currentBubbleAmmo.SetBubbleConfig(GetRandomAmmoBubbleConfig());
@@ -31,6 +31,21 @@ namespace BubblePops.BubbleShoooter
 			_nextBubbleAmmo.transform.localScale = Vector3.one * _nextAmmoScale;
 			_nextBubbleAmmo.SetBubbleConfig(GetRandomAmmoBubbleConfig());
 		}
+
+		public BubbleAmmoView TakeCurrentAmmo()
+        {
+			var ammoToShoot = _currentBubbleAmmo;
+
+			_currentBubbleAmmo = _nextBubbleAmmo;
+			_currentBubbleAmmo.transform.position = transform.position;
+			_currentBubbleAmmo.transform.localScale = Vector3.one;
+
+			_nextBubbleAmmo = Instantiate(_bubbleAmmoPrefab, NextAmmoPosition(), Quaternion.identity);
+			_nextBubbleAmmo.transform.localScale = Vector3.one * _nextAmmoScale;
+			_nextBubbleAmmo.SetBubbleConfig(GetRandomAmmoBubbleConfig());
+
+            return ammoToShoot;
+        }
 
         private BubbleConfigItem GetRandomAmmoBubbleConfig()
 		{

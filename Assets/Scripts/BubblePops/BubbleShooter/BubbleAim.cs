@@ -5,8 +5,9 @@ using BubblePops.Board;
 using BubblePops.Shared;
 using UnityEngine;
 
-namespace BubblePops.BubbleShoooter
+namespace BubblePops.BubbleShooter
 {
+	[RequireComponent(typeof(BubbleShoot))]
     public class BubbleAim : MonoBehaviour 
 	{
 		[SerializeField] LineRenderer aimLineRenderer;
@@ -14,7 +15,13 @@ namespace BubblePops.BubbleShoooter
 		public event Action<BubbleSlotView> OnBubbleSlotPreviewActivated;
 		public event Action OnNoBubbleSlotPreviewActivated;
 
+		private BubbleShoot _bubbleShoot;
 		private BubbleAimTarget _aimTarget;
+
+		void Awake()
+		{
+			_bubbleShoot = GetComponent<BubbleShoot>();
+		}
 
 		void Start()
 		{
@@ -31,6 +38,11 @@ namespace BubblePops.BubbleShoooter
 				_aimTarget = null;
 				HandleAim();
 			}
+			else if (FinishedAiming())
+			{
+				if (_aimTarget != null)
+					_bubbleShoot.Shoot(_aimTarget);
+			}
 			else
 			{
 				aimLineRenderer.positionCount = 1;
@@ -41,6 +53,11 @@ namespace BubblePops.BubbleShoooter
 		private bool IsAiming()
 		{
 			return Input.GetMouseButton(0) || Input.touchCount > 0 && Input.touches[0].phase != TouchPhase.Ended;
+		}
+
+		private bool FinishedAiming()
+		{
+			return Input.GetMouseButtonUp(0) || Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Ended;
 		}
 
 		private void HandleAim()
