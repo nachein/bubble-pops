@@ -20,6 +20,16 @@ namespace BubblePops.Board
 			_renderer.color = bubbleConfigItem.color;
 			_text.SetText(bubbleConfigItem.display);
 		}
+
+        public void Pop()
+        {
+            Destroy(gameObject);
+        }
+
+        public int BubbleNumber()
+		{
+			return _bubbleConfig.number;
+		}
 	}
 }
 

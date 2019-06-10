@@ -4,6 +4,7 @@
 	{
 		public const string BUBBLE_SLOT = "BubbleSlot";
 		public const string BOUNCE_SIDE = "BounceSide";
+		public const string BUBBLE_DROP = "BubbleDrop";
 	}
 }
 

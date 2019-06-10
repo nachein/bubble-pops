@@ -6,6 +6,7 @@ TagManager:
   tags:
   - BubbleSlot
   - BounceSide
+  - BubbleDrop
   layers:
   - Default
   - TransparentFX

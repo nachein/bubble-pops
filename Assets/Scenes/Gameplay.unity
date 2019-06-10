@@ -291,6 +291,7 @@ Transform:
   - {fileID: 372522773}
   - {fileID: 1062708367}
   - {fileID: 1808870355}
+  - {fileID: 1013278932}
   m_Father: {fileID: 37055043}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -318,6 +319,8 @@ MonoBehaviour:
   _bubbleAim: {fileID: 132904462}
   _bubbleAmmo: {fileID: 132904463}
   _bubbleShoot: {fileID: 132904464}
+  _score: {fileID: 1473136803}
+  _bubbleCatcher: {fileID: 1013278933}
 --- !u!1 &192068012
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,6 +953,72 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1002284557}
+--- !u!1 &1013278931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1013278932}
+  - component: {fileID: 1013278934}
+  - component: {fileID: 1013278933}
+  m_Layer: 0
+  m_Name: BubbleCatcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1013278932
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1013278931}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 185564986}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1013278933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1013278931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70772b800dbb8794293e7ced8f0a907d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &1013278934
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1013278931}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 7, y: 0.25}
+  m_EdgeRadius: 0
 --- !u!1 &1062708366
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,6 +1314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1473136800}
   - component: {fileID: 1473136802}
+  - component: {fileID: 1473136803}
   - component: {fileID: 1473136801}
   m_Layer: 0
   m_Name: TotalScore
@@ -1391,6 +1461,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1473136799}
+--- !u!114 &1473136803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1473136799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce7dddcac08d0d428af7fa81722a87f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1610293680
 GameObject:
   m_ObjectHideFlags: 0

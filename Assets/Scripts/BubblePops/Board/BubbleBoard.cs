@@ -28,6 +28,8 @@ namespace BubblePops.Board
 		[SerializeField] BubbleAim _bubbleAim;
 		[SerializeField] BubbleAmmo _bubbleAmmo;
 		[SerializeField] BubbleShoot _bubbleShoot;
+		[SerializeField] Score _score;
+		[SerializeField] BubbleCatcher _bubbleCatcher;
 
 		private BubbleSlot[] _bubbleSlots;
 		private float _bubbleSize;
@@ -40,6 +42,8 @@ namespace BubblePops.Board
 			_bubbleAim.OnBubbleShot += BubbleShot;
 
 			_bubbleShoot.OnBubbleAdded += BubbleAddedToBoard;
+
+			_bubbleCatcher.OnBubbleDropped += BubbleDropped;
 		}
 
 		private void ActivateBubbleSlotPreview(BubbleSlotView bubbleSlot)
@@ -70,6 +74,11 @@ namespace BubblePops.Board
 			}
 		}
 
+		private void BubbleDropped(int number)
+		{
+			_score.AddScore(number);
+		}
+
 		public void Create()
 		{
 			_bubbleSlots = new BubbleSlot[_boardHeight * _boardWidth];
@@ -85,6 +94,7 @@ namespace BubblePops.Board
 
 			CenterBoard();
 			PlaceSideBouncers();
+			_bubbleCatcher.transform.position = _bubbleAim.transform.position;
 
 			CreateInitialBoardBubbles();
 			_bubbleAmmo.Setup();
@@ -137,6 +147,7 @@ namespace BubblePops.Board
 			var adjacentBubblesWithSameScore = GetAdjacentBubbles(bubbleSlot, new List<BubbleSlot> { bubbleSlot });
 			if (adjacentBubblesWithSameScore.Count > 1)
 			{
+				_score.AddScore(bubbleConfig.number * adjacentBubblesWithSameScore.Count);
 				var newBubbleNumber = MergeBubbles(bubbleConfig.number, adjacentBubblesWithSameScore.Count);
 				var bubbleToMerge = adjacentBubblesWithSameScore.Last();
 				foreach (var adjacent in adjacentBubblesWithSameScore) 
