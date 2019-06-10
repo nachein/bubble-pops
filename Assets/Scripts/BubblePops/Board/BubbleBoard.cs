@@ -96,11 +96,11 @@ namespace BubblePops.Board
 			position.y = -y * _bubbleSize;// - _bubbleSlotsContainer.position.y;
 			position.z = 0f;
 
-			var bubbleSlot = Instantiate<BubbleSlotView>(_bubbleSlotPrefab);
-			bubbleSlot.transform.SetParent(_bubbleSlotsContainer, false);
-			bubbleSlot.transform.localPosition = position;
+			var bubbleSlotView = Instantiate<BubbleSlotView>(_bubbleSlotPrefab);
+			bubbleSlotView.transform.SetParent(_bubbleSlotsContainer, false);
+			bubbleSlotView.transform.localPosition = position;
 
-			_bubbleSlots[i] = new BubbleSlot(bubbleSlot);
+			_bubbleSlots[i] = new BubbleSlot(bubbleSlotView);
 		}
 
 		private void CenterGrid()
@@ -134,6 +134,10 @@ namespace BubblePops.Board
 			bubbleSlot.PlaceBubble(bubbleConfig); 
 
 			// TODO: calculate score
+			var adjacentBubbles = GetAdjacentBubbles(bubbleSlot);
+			foreach (var adjacent in adjacentBubbles) {
+				print(adjacent.BubbleConfig().number);           
+			}
 		}
 
 		private void AddNewRow()
@@ -149,6 +153,78 @@ namespace BubblePops.Board
 			{
 				CreateBubbleSlot(x, newRowIndex, i++);
 			}
+		}
+
+		private List<BubbleSlot> GetAdjacentBubbles(BubbleSlot bubbleSlot)
+		{
+			var adjacentBubbleSlots = new List<BubbleSlot>();
+			var adjacentIndexes = GetAdjacentIndexes(bubbleSlot);
+			
+			foreach (var adjacentBubbleIndex in adjacentIndexes) 
+			{
+				var bubbleSlotToAdd = _bubbleSlots[adjacentBubbleIndex];
+				if (bubbleSlotToAdd.HasBubble() && bubbleSlotToAdd.BubbleConfig().number == bubbleSlot.BubbleConfig().number)
+				{
+					adjacentBubbleSlots.Add(bubbleSlotToAdd);
+				}
+			}
+
+			return adjacentBubbleSlots;
+		}
+
+		private List<int> GetAdjacentIndexes(BubbleSlot bubbleSlot)
+		{
+			var indexes = new List<int>();
+			
+			var slotIndex = Array.IndexOf(_bubbleSlots, bubbleSlot);
+
+			// adjacents in same row
+			var currentRowIndex = Mathf.Floor(slotIndex / _boardWidth);
+			var minIndexInRow = currentRowIndex * _boardWidth;
+			var maxIndexInRow = minIndexInRow + (_boardWidth-1);
+
+			if (slotIndex - 1 >= minIndexInRow)
+				indexes.Add(slotIndex-1);
+
+			if (slotIndex + 1 <= maxIndexInRow)
+				indexes.Add(slotIndex+1);
+
+			var isEvenRow = currentRowIndex % 2 == 0;
+
+			// adjacents in previous row
+			var previousRowIndex = currentRowIndex - 1;
+			if (previousRowIndex >= 0) 
+        	{
+				var minIndexInPreviousRow = previousRowIndex * _boardWidth;
+            	var maxIndexInPreviousRow = minIndexInPreviousRow + (_boardWidth - 1);
+
+				indexes.Add(slotIndex - _boardWidth);
+
+				var otherLowerIndex = slotIndex - (_boardWidth +(isEvenRow ? 1 : -1));
+				if (otherLowerIndex >= minIndexInPreviousRow && otherLowerIndex <= maxIndexInPreviousRow) 
+				{
+					indexes.Add(otherLowerIndex);
+				}
+			}
+
+			// adjacents in next row
+			var nextRowIndex = currentRowIndex + 1;
+			var boardHeight = _bubbleSlots.Length / _boardWidth;
+			if (nextRowIndex <= boardHeight) 
+			{
+				var minIndexInNextRow = nextRowIndex * _boardWidth;
+				var maxIndexInNextRow = minIndexInNextRow + (_boardWidth-1);
+
+				indexes.Add(slotIndex + _boardWidth);
+
+				var otherUpperIndex = slotIndex + (_boardWidth + (isEvenRow ? -1 : 1));
+				if (otherUpperIndex >= minIndexInNextRow && otherUpperIndex <= maxIndexInNextRow)
+				{
+					indexes.Add(otherUpperIndex);
+				}
+			}
+
+			return indexes;
 		}
 	}
 

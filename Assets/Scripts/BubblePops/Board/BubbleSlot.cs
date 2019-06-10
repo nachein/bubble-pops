@@ -40,6 +40,11 @@ namespace BubblePops.Board
         {
             _isReserved = true;
         }
+
+        public BubbleConfigItem BubbleConfig()
+        {
+            return _bubbleConfig;
+        }
     }
 
 
