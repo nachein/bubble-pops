@@ -4,10 +4,11 @@ using UnityEngine;
 using System.Linq;
 using BubblePops.ScriptableObjects;
 using System;
+using BubblePops.BubbleShoooter;
 
-namespace BubblePops.Board 
+namespace BubblePops.Board
 {
-	public class BubbleBoard : MonoBehaviour
+    public class BubbleBoard : MonoBehaviour
 	{
 		[Header("Board Settings")]
 		[SerializeField] int _boardWidth;
@@ -22,8 +23,38 @@ namespace BubblePops.Board
 		[SerializeField] GameObject LeftSideBouncer;
 		[SerializeField] GameObject RightSideBouncer;
 
+		[Header("Behaviour Refernces")]
+		[SerializeField] BubbleAim _bubbleAim;
+
 		private BubbleSlot[] _bubbleSlots;
 		private float _bubbleSize;
+		private BubbleSlotView _activatedSlotPreview;
+
+		void Start()
+		{
+			_bubbleAim.OnBubbleSlotPreviewActivated += ActivateBubbleSlotPreview;
+        	_bubbleAim.OnNoBubbleSlotPreviewActivated += DeactivateBubbleSlotPreview;
+		}
+
+		private void ActivateBubbleSlotPreview(BubbleSlotView bubbleSlot)
+		{
+			if (_activatedSlotPreview == bubbleSlot)
+				return;
+
+			DeactivateBubbleSlotPreview();
+
+			_activatedSlotPreview = bubbleSlot;
+			_activatedSlotPreview.ActivatePreview();
+		}
+
+		private void DeactivateBubbleSlotPreview()
+		{
+			if (_activatedSlotPreview != null)
+			{
+				_activatedSlotPreview.DeactivatePreview();
+				_activatedSlotPreview = null;
+			}
+		}
 
 		public void Create()
 		{
@@ -81,24 +112,6 @@ namespace BubblePops.Board
 			}
 		}
 	}
-
-	public class BubbleSlot
-	{
-        private readonly BubbleSlotView _view;
-		private BubbleConfigItem _bubbleConfig;
-
-        public BubbleSlot(BubbleSlotView view)
-		{
-            _view = view;
-        }
-
-        public void PlaceBubble(BubbleConfigItem bubbleConfig)
-        {
-			_bubbleConfig = bubbleConfig;
-        	_view.SetBubbleColor(bubbleConfig.color);
-        	_view.SetBubbleNumber(bubbleConfig.display);
-        }
-    }
 
 
 }
