@@ -310,6 +310,8 @@ MonoBehaviour:
   _bubbleConfig: {fileID: 11400000, guid: 4f144bd542cc39d49afb89cd6d810af4, type: 2}
   _bubbleSlotPrefab: {fileID: 114909315850429976, guid: 85656f5b3e2f76e4a9328db36b78e28f,
     type: 2}
+  _bubbleDropPrefab: {fileID: 114347724058983334, guid: 85f110afb96df16488572147a75cd123,
+    type: 2}
   _bubbleSlotsContainer: {fileID: 1062708367}
   LeftSideBouncer: {fileID: 494608461}
   RightSideBouncer: {fileID: 1633368941}

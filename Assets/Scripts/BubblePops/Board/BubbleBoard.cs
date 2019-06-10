@@ -17,6 +17,7 @@ namespace BubblePops.Board
 
 		[Header("Prefabs")]
 		[SerializeField] BubbleSlotView _bubbleSlotPrefab;
+		[SerializeField] BubbleDropView _bubbleDropPrefab;
 
 		[Header("Gameobject References")]
 		[SerializeField] Transform _bubbleSlotsContainer;
@@ -147,7 +148,8 @@ namespace BubblePops.Board
 					}
 				}
 
-				foreach (var otherAdjacent in adjacentBubblesWithSameScore.Where(adjacent => adjacent.Id() != bubbleToMerge.Id()))
+				var otherAdjacentsToPop = adjacentBubblesWithSameScore.Where(adjacent => adjacent.Id() != bubbleToMerge.Id()).ToList();
+				foreach (var otherAdjacent in otherAdjacentsToPop)
 				{
 					otherAdjacent.Pop();
 				}
@@ -157,7 +159,63 @@ namespace BubblePops.Board
 				var newBubbleConfig = _bubbleConfig.configs.FirstOrDefault(config => config.number == newBubbleNumber);
 				BubbleAddedToBoard(bubbleToMerge.View(), newBubbleConfig);
 			}
+			else 
+			{
+				SearchHangingBubbles();
+			}
 		}
+
+        private void SearchHangingBubbles()
+        {
+			var firstEmptySlotIndex = Array.IndexOf(_bubbleSlots, _bubbleSlots.FirstOrDefault(slot => slot.IsEmpty()));
+			for (var i = firstEmptySlotIndex; i < _bubbleSlots.Length; i++) 
+			{
+				var bubbleSlot = _bubbleSlots[i];
+				if (bubbleSlot.IsEmpty())
+					continue;
+
+				if (!HasCeiling(i, bubbleSlot))
+				{
+					var dropBubble = Instantiate(_bubbleDropPrefab, bubbleSlot.View().transform.position, Quaternion.identity);
+					dropBubble.SetBubbleConfig(bubbleSlot.BubbleConfig());
+					bubbleSlot.Pop();
+				}
+			}	
+        }
+
+        private bool HasCeiling(int slotIndex, BubbleSlot bubbleSlot)
+        {
+			var currentRowIndex = Mathf.Floor(slotIndex / _boardWidth);
+			var isEvenRow = currentRowIndex % 2 == 0;
+			var previousRowIndex = currentRowIndex - 1;
+			if (previousRowIndex >= 0) 
+        	{
+				var minIndexInPreviousRow = previousRowIndex * _boardWidth;
+            	var maxIndexInPreviousRow = minIndexInPreviousRow + (_boardWidth - 1);
+
+				if (_bubbleSlots[slotIndex - _boardWidth].HasBubble())
+					return true;
+
+				var otherLowerIndex = slotIndex - (_boardWidth +(isEvenRow ? 1 : -1));
+				if (otherLowerIndex >= minIndexInPreviousRow && otherLowerIndex <= maxIndexInPreviousRow) 
+				{
+					if (_bubbleSlots[otherLowerIndex].HasBubble())
+						return true;
+				}
+			}
+
+			return false;
+        }
+
+        private bool HasNoAdjacents(BubbleSlot bubbleSlot)
+        {
+            var adjacentIndexes = GetAdjacentIndexes(bubbleSlot);
+			foreach (var i in adjacentIndexes)
+			{
+				print(i);
+			}
+			return adjacentIndexes.Select(i => _bubbleSlots[i]).Where(slot => slot.HasBubble()).Count() == 0;
+        }
 
         private void RemoveEmptyRows()
         {
@@ -287,7 +345,7 @@ namespace BubblePops.Board
 			// adjacents in next row
 			var nextRowIndex = currentRowIndex + 1;
 			var boardHeight = _bubbleSlots.Length / _boardWidth;
-			if (nextRowIndex <= boardHeight) 
+			if (nextRowIndex <= boardHeight - 1) 
 			{
 				var minIndexInNextRow = nextRowIndex * _boardWidth;
 				var maxIndexInNextRow = minIndexInNextRow + (_boardWidth-1);
