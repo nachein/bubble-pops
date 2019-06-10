@@ -47,10 +47,20 @@ namespace BubblePops.Board
 		{
 			_renderer.color = new Color(_renderer.color.r, _renderer.color.g, _renderer.color.b, 1f);
 		}
-		
-		public void DeactivatePreview()
+
+        public void DeactivatePreview()
 		{
 			_renderer.color = new Color(_renderer.color.r, _renderer.color.g, _renderer.color.b, 0f);
 		}
+
+        public bool IsReserved()
+        {
+            return _bubbleSlot.IsReserved();
+        }
+
+		public void Reserve()
+        {
+            _bubbleSlot.Reserve();
+        }
     }
 }

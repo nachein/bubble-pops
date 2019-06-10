@@ -6,6 +6,7 @@ namespace BubblePops.Board
 	{
         private readonly BubbleSlotView _view;
 		private BubbleConfigItem _bubbleConfig;
+        private bool _isReserved;
 
         public BubbleSlot(BubbleSlotView view)
 		{
@@ -28,6 +29,16 @@ namespace BubblePops.Board
         public bool HasBubble()
         {
             return _bubbleConfig != null;
+        }
+
+        public bool IsReserved()
+        {
+            return _isReserved;
+        }
+
+        public void Reserve()
+        {
+            _isReserved = true;
         }
     }
 

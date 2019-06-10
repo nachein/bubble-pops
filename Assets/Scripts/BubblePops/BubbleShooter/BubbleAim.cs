@@ -12,8 +12,9 @@ namespace BubblePops.BubbleShooter
 	{
 		[SerializeField] LineRenderer aimLineRenderer;
 
-		public event Action<BubbleSlotView> OnBubbleSlotPreviewActivated;
-		public event Action OnNoBubbleSlotPreviewActivated;
+		public event Action<BubbleSlotView> OnBubbleSlotPreviewActivated = delegate {};
+		public event Action OnNoBubbleSlotPreviewActivated = delegate {};
+		public event Action OnBubbleShot = delegate {};
 
 		private BubbleShoot _bubbleShoot;
 		private BubbleAimTarget _aimTarget;
@@ -40,8 +41,13 @@ namespace BubblePops.BubbleShooter
 			}
 			else if (FinishedAiming())
 			{
-				if (_aimTarget != null)
+				if (_aimTarget != null) 
+				{
+					_aimTarget.BubbleSlotView().Reserve();
+					OnBubbleShot();
 					_bubbleShoot.Shoot(_aimTarget);
+				}
+					
 			}
 			else
 			{
@@ -73,7 +79,7 @@ namespace BubblePops.BubbleShooter
 				if (IsAimingAtEmptySlot(aimHit))
 					continue;
 
-				if (IsAimingAtBubble(aimHit))
+				if (IsAimingAtAvailableBubble(aimHit))
 				{
 					aimLineRenderer.SetPosition(1, aimHit.point);
 					aimLineRenderer.SetPosition(2, aimHit.point);
@@ -105,7 +111,7 @@ namespace BubblePops.BubbleShooter
 							continue;
 						}
 							
-						if (IsAimingAtBubble(reflectionHit))
+						if (IsAimingAtAvailableBubble(reflectionHit))
 						{
 							aimLineRenderer.SetPosition(2, reflectionHit.point);
 							if (j > 0) 
@@ -141,11 +147,12 @@ namespace BubblePops.BubbleShooter
 			return Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		}
 
-		private bool IsAimingAtBubble(RaycastHit2D hit)
+		private bool IsAimingAtAvailableBubble(RaycastHit2D hit)
 		{
 			if (hit.transform.gameObject.tag == Tags.BUBBLE_SLOT) 
 			{
-				return hit.transform.GetComponent<BubbleSlotView>().HasBubble();
+				var bubbleSlotView = hit.transform.GetComponent<BubbleSlotView>();
+				return bubbleSlotView.HasBubble() || bubbleSlotView.IsReserved();
 			}
 
 			return false;
@@ -155,7 +162,8 @@ namespace BubblePops.BubbleShooter
 		{
 			if (hit.transform.gameObject.tag == Tags.BUBBLE_SLOT) 
 			{
-				return hit.transform.GetComponent<BubbleSlotView>().IsEmpty();
+				var bubbleSlotView = hit.transform.GetComponent<BubbleSlotView>();
+				return bubbleSlotView.IsEmpty() && !bubbleSlotView.IsReserved();
 			}
 
 			return false;

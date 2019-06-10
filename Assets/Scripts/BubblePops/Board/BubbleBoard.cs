@@ -36,6 +36,7 @@ namespace BubblePops.Board
 		{
 			_bubbleAim.OnBubbleSlotPreviewActivated += ActivateBubbleSlotPreview;
         	_bubbleAim.OnNoBubbleSlotPreviewActivated += DeactivateBubbleSlotPreview;
+			_bubbleAim.OnBubbleShot += BubbleShot;
 
 			_bubbleShoot.OnBubbleAdded += BubbleAddedToBoard;
 		}
@@ -57,6 +58,14 @@ namespace BubblePops.Board
 			{
 				_activatedSlotPreview.DeactivatePreview();
 				_activatedSlotPreview = null;
+			}
+		}
+
+		private void BubbleShot()
+		{
+			if (_bubbleSlots.Skip(Math.Max(0, _bubbleSlots.Length - _boardWidth)).Any(slot => slot.HasBubble() || slot.IsReserved()))
+			{
+				AddNewRow();
 			}
 		}
 
@@ -124,10 +133,7 @@ namespace BubblePops.Board
 			var bubbleSlot = _bubbleSlots[Array.IndexOf(_bubbleSlots,bubbleSlotView.BubbleSlot())];
 			bubbleSlot.PlaceBubble(bubbleConfig); 
 
-			if (_bubbleSlots.Skip(Math.Max(0, _bubbleSlots.Length - _boardWidth)).Any(slot => slot.HasBubble()))
-			{
-				AddNewRow();
-			}
+			// TODO: calculate score
 		}
 
 		private void AddNewRow()
