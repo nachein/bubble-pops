@@ -1,15 +1,18 @@
+using System;
 using BubblePops.ScriptableObjects;
 
 namespace BubblePops.Board
 {
     public class BubbleSlot
 	{
+        private Guid _id;
         private readonly BubbleSlotView _view;
 		private BubbleConfigItem _bubbleConfig;
         private bool _isReserved;
 
         public BubbleSlot(BubbleSlotView view)
 		{
+            _id = Guid.NewGuid();
             _view = view;
             _view.SetBubbleSlot(this);
         }
@@ -44,6 +47,11 @@ namespace BubblePops.Board
         public BubbleConfigItem BubbleConfig()
         {
             return _bubbleConfig;
+        }
+
+        public Guid Id()
+        {
+            return _id;
         }
     }
 

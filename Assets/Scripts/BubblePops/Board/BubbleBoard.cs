@@ -133,10 +133,10 @@ namespace BubblePops.Board
 			var bubbleSlot = _bubbleSlots[Array.IndexOf(_bubbleSlots,bubbleSlotView.BubbleSlot())];
 			bubbleSlot.PlaceBubble(bubbleConfig); 
 
-			// TODO: calculate score
-			var adjacentBubbles = GetAdjacentBubbles(bubbleSlot);
+			var adjacentBubbles = GetAdjacentBubbles(bubbleSlot, new List<BubbleSlot> { bubbleSlot });
 			foreach (var adjacent in adjacentBubbles) {
 				print(adjacent.BubbleConfig().number);           
+				// TODO: calculate score
 			}
 		}
 
@@ -155,9 +155,9 @@ namespace BubblePops.Board
 			}
 		}
 
-		private List<BubbleSlot> GetAdjacentBubbles(BubbleSlot bubbleSlot)
+		private List<BubbleSlot> GetAdjacentBubbles(BubbleSlot bubbleSlot, List<BubbleSlot> knownAdjacents)
 		{
-			var adjacentBubbleSlots = new List<BubbleSlot>();
+			var newAdjacentBubbleSlots = new List<BubbleSlot>();
 			var adjacentIndexes = GetAdjacentIndexes(bubbleSlot);
 			
 			foreach (var adjacentBubbleIndex in adjacentIndexes) 
@@ -165,11 +165,25 @@ namespace BubblePops.Board
 				var bubbleSlotToAdd = _bubbleSlots[adjacentBubbleIndex];
 				if (bubbleSlotToAdd.HasBubble() && bubbleSlotToAdd.BubbleConfig().number == bubbleSlot.BubbleConfig().number)
 				{
-					adjacentBubbleSlots.Add(bubbleSlotToAdd);
+					if (!knownAdjacents.Any(slot => slot.Id() == bubbleSlotToAdd.Id()))
+						newAdjacentBubbleSlots.Add(bubbleSlotToAdd);
 				}
 			}
 
-			return adjacentBubbleSlots;
+			if (newAdjacentBubbleSlots.Count() == 0)
+				return knownAdjacents;
+
+			var result = new List<BubbleSlot>();
+			foreach (var newSlot in newAdjacentBubbleSlots) 
+			{
+				var newSlotAdjacentBubbles = GetAdjacentBubbles(newSlot, knownAdjacents.Concat(newAdjacentBubbleSlots).ToList());
+				foreach(var newSlotAdjacentBubble in newSlotAdjacentBubbles)
+				{
+					if (!result.Any(slot => slot.Id() == newSlotAdjacentBubble.Id()))
+						result.Add(newSlotAdjacentBubble);
+				}	
+			}
+			return result;
 		}
 
 		private List<int> GetAdjacentIndexes(BubbleSlot bubbleSlot)
