@@ -11,6 +11,7 @@ namespace BubblePops.BubbleShooter
 	public class BubbleAim : MonoBehaviour
 	{
 		[SerializeField] LineRenderer aimLineRenderer;
+		[SerializeField] BubbleBoard _bubbleBoard;
 
 		public event Action<BubbleSlotView> OnBubbleSlotPreviewActivated = delegate { };
 		public event Action OnNoBubbleSlotPreviewActivated = delegate { };
@@ -18,6 +19,7 @@ namespace BubblePops.BubbleShooter
 
 		private BubbleShoot _bubbleShoot;
 		private BubbleAimTarget _aimTarget;
+
 
 		void Awake ()
 		{
@@ -32,6 +34,9 @@ namespace BubblePops.BubbleShooter
 
 		void Update ()
 		{
+			if (_bubbleBoard.IsLevelCompleted())
+				return;
+
 			if (IsAiming ())
 			{
 				aimLineRenderer.positionCount = 3;
@@ -152,7 +157,8 @@ namespace BubblePops.BubbleShooter
 			if (hit.transform.gameObject.tag == Tags.BUBBLE_SLOT)
 			{
 				var bubbleSlotView = hit.transform.GetComponent<BubbleSlotView> ();
-				return bubbleSlotView.HasBubble () || bubbleSlotView.IsReserved ();
+				if (bubbleSlotView != null)
+					return bubbleSlotView.HasBubble () || bubbleSlotView.IsReserved ();
 			}
 
 			return false;

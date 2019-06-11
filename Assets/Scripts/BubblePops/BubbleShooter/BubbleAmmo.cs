@@ -15,12 +15,6 @@ namespace BubblePops.BubbleShooter
 		private BubbleAmmoView _currentBubbleAmmo;
 		private BubbleAmmoView _nextBubbleAmmo;
 		private float _nextAmmoScale = 0.7f;
-		private float _ammoSize;
-
-		void Awake ()
-		{
-			_ammoSize = _bubbleAmmoPrefab.GetComponent<Renderer> ().bounds.size.x;
-		}
 
 		public void Setup ()
 		{
@@ -30,6 +24,12 @@ namespace BubblePops.BubbleShooter
 			_nextBubbleAmmo = Instantiate (_bubbleAmmoPrefab, NextAmmoPosition (), Quaternion.identity);
 			_nextBubbleAmmo.transform.localScale = Vector3.one * _nextAmmoScale;
 			_nextBubbleAmmo.SetBubbleConfig (GetRandomAmmoBubbleConfig ());
+		}
+
+		public void Clear()
+		{
+			Destroy(_currentBubbleAmmo.gameObject);
+			Destroy(_nextBubbleAmmo.gameObject);
 		}
 
 		public BubbleAmmoView TakeCurrentAmmo ()

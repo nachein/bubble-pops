@@ -31,9 +31,12 @@ namespace BubblePops.Board
     [SerializeField] Score _score;
     [SerializeField] BubbleCatcher _bubbleCatcher;
 
+		public event Action OnLevelComplete = delegate {};
+
     private BubbleSlot[] _bubbleSlots;
     private float _bubbleSize;
     private BubbleSlotView _activatedSlotPreview;
+		private bool _isLevelCompleted;
 
     void Start()
     {
@@ -105,8 +108,25 @@ namespace BubblePops.Board
 			_score.Reset();
 			foreach (var bubbleSlot in _bubbleSlots)
 			{
-
+					Destroy(bubbleSlot.View().gameObject);
 			}
+
+			_bubbleAmmo.Clear();
+
+			Create();
+
+			_isLevelCompleted = false;
+		}
+
+		public void LevelCompleted()
+		{
+			_isLevelCompleted = true;
+			OnLevelComplete();
+		}
+
+		public bool IsLevelCompleted()
+		{
+			return _isLevelCompleted;
 		}
 
     private void CreateBubbleSlot(int x, int y, int i)
@@ -132,9 +152,8 @@ namespace BubblePops.Board
 
     private void PlaceSideBouncers()
     {
-      var offset = _bubbleSize * _boardWidth / 2f - _bubbleSize / 4f;
-      RightSideBouncer.transform.position += Vector3.right * offset;
-      LeftSideBouncer.transform.position += Vector3.left * offset;
+			RightSideBouncer.transform.position = transform.position + Vector3.right * (_boardWidth  / 2f * _bubbleSize - _bubbleSize / 4f);
+			LeftSideBouncer.transform.position = transform.position + Vector3.left * (_boardWidth  / 2f * _bubbleSize - _bubbleSize / 4f);
     }
 
     private void CreateInitialBoardBubbles()
