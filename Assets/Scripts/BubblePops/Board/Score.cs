@@ -27,5 +27,11 @@ namespace BubblePops.Board
 			_currentScore += score;
 			UpdateCurrentScore();
 		}
+
+		public void Reset()
+		{
+			_currentScore = 0;
+			UpdateCurrentScore();
+		}
 	}
 }

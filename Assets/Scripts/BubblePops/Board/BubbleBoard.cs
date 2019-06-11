@@ -100,6 +100,15 @@ namespace BubblePops.Board
       _bubbleAmmo.Setup();
     }
 
+		public void Restart()
+		{
+			_score.Reset();
+			foreach (var bubbleSlot in _bubbleSlots)
+			{
+
+			}
+		}
+
     private void CreateBubbleSlot(int x, int y, int i)
     {
       Vector3 position;
@@ -167,7 +176,7 @@ namespace BubblePops.Board
 
         if (newBubbleNumber == 2048)
         {
-					var adjacentsWithBubble = GetAdjacentBubbles();
+					var adjacentsWithBubble = GetAdjacentBubbles(bubbleToMerge);
 					foreach (var adjacentBubble in adjacentsWithBubble) 
 					{
 						adjacentBubble.Pop();

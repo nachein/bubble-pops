@@ -647,9 +647,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: 
-  projectName: Template_2D
-  organizationId: 
+  cloudProjectId: 634491eb-327a-4a19-8fed-7071b51b70bd
+  projectName: bubble-pops
+  organizationId: ignacio-casal
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
