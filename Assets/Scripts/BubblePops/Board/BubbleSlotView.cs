@@ -46,7 +46,7 @@ namespace BubblePops.Board
 
 		public void ActivatePreview (BubbleConfigItem config)
 		{
-			_renderer.color = new Color (config.color.r, config.color.g, config.color.b, 0.5f);
+			_renderer.color = new Color  (config.color.r/255f, config.color.g/255f, config.color.b/255f, 0.25f);
 		}
 
 		public void DeactivatePreview ()
