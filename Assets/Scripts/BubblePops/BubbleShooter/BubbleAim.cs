@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BubblePops.Board;
 using BubblePops.Shared;
+using BubblePops.ScriptableObjects;
 using UnityEngine;
 
 namespace BubblePops.BubbleShooter
@@ -19,11 +20,13 @@ namespace BubblePops.BubbleShooter
 
 		private BubbleShoot _bubbleShoot;
 		private BubbleAimTarget _aimTarget;
+		private bool _waitForBubbleToArrive;
 
 
 		void Awake ()
 		{
 			_bubbleShoot = GetComponent<BubbleShoot> ();
+			_bubbleShoot.OnBubbleAdded += BubbleAddedToBoard;
 		}
 
 		void Start ()
@@ -34,7 +37,7 @@ namespace BubblePops.BubbleShooter
 
 		void Update ()
 		{
-			if (_bubbleBoard.IsLevelCompleted())
+			if (_bubbleBoard.IsLevelCompleted() || _waitForBubbleToArrive)
 				return;
 
 			if (IsAiming ())
@@ -48,9 +51,12 @@ namespace BubblePops.BubbleShooter
 			{
 				if (_aimTarget != null)
 				{
-					_aimTarget.BubbleSlotView ().Reserve ();
-					OnBubbleShot ();
-					_bubbleShoot.Shoot (_aimTarget);
+					_aimTarget.BubbleSlotView().Reserve();
+					OnBubbleShot();
+					_bubbleShoot.Shoot(_aimTarget);
+					_aimTarget = null;
+					_waitForBubbleToArrive = true;
+					OnNoBubbleSlotPreviewActivated();
 				}
 
 			}
@@ -179,6 +185,11 @@ namespace BubblePops.BubbleShooter
 		private bool IsAimingAtWall (RaycastHit2D hit)
 		{
 			return hit.transform.gameObject.tag == Tags.BOUNCE_SIDE;
+		}
+
+		private void BubbleAddedToBoard(BubbleSlotView bubbleSlotView, BubbleConfigItem bubbleConfig)
+		{
+			_waitForBubbleToArrive = false;
 		}
 	}
 }

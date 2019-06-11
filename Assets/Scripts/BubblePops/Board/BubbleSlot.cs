@@ -22,6 +22,7 @@ namespace BubblePops.Board
 			_bubbleConfig = bubbleConfig;
         	_view.SetBubbleColor(bubbleConfig.color);
         	_view.SetBubbleNumber(bubbleConfig.display);
+            _isReserved = false;
         }
 
         public bool IsEmpty()

@@ -51,6 +51,9 @@ namespace BubblePops.Board
 
 		public void DeactivatePreview ()
 		{
+			if (_bubbleSlot.HasBubble())
+				return;
+
 			_renderer.color = new Color (_renderer.color.r, _renderer.color.g, _renderer.color.b, 0f);
 		}
 

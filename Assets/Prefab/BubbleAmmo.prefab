@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4924739601980492}
   - component: {fileID: 212308321982165644}
-  - component: {fileID: 58135333609294012}
   - component: {fileID: 114725011909025930}
   m_Layer: 0
   m_Name: BubbleAmmo
@@ -104,21 +103,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1786753290629372}
   m_Mesh: {fileID: 0}
---- !u!58 &58135333609294012
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1230822618873140}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.32
 --- !u!114 &114244867637851402
 MonoBehaviour:
   m_ObjectHideFlags: 1
