@@ -38,7 +38,7 @@ namespace BubblePops.Board
 		void Start()
 		{
 			_bubbleAim.OnBubbleSlotPreviewActivated += ActivateBubbleSlotPreview;
-        	_bubbleAim.OnNoBubbleSlotPreviewActivated += DeactivateBubbleSlotPreview;
+			_bubbleAim.OnNoBubbleSlotPreviewActivated += DeactivateBubbleSlotPreview;
 			_bubbleAim.OnBubbleShot += BubbleShot;
 
 			_bubbleShoot.OnBubbleAdded += BubbleAddedToBoard;
@@ -148,7 +148,7 @@ namespace BubblePops.Board
 			if (adjacentBubblesWithSameScore.Count > 1)
 			{
 				_score.AddScore(bubbleConfig.number * adjacentBubblesWithSameScore.Count);
-				var newBubbleNumber = MergeBubbles(bubbleConfig.number, adjacentBubblesWithSameScore.Count);
+				var newBubbleNumber = CalculateMergeScore(bubbleConfig.number, adjacentBubblesWithSameScore.Count);
 				var bubbleToMerge = adjacentBubblesWithSameScore.Last();
 				foreach (var adjacent in adjacentBubblesWithSameScore) 
 				{
@@ -373,9 +373,9 @@ namespace BubblePops.Board
 			return indexes;
 		}
 
-		private int MergeBubbles(int number, int times)
+		private int CalculateMergeScore(int number, int times)
 		{
-			return number * (int)Math.Pow(2, times - 1);
+			return Math.Min(2048, number * (int)Math.Pow(2, times - 1));
 		}
 	}
 
