@@ -5,6 +5,7 @@ using System.Linq;
 using BubblePops.ScriptableObjects;
 using System;
 using BubblePops.BubbleShooter;
+using UnityEngine.SceneManagement;
 
 namespace BubblePops.Board
 {
@@ -105,17 +106,7 @@ namespace BubblePops.Board
 
 		public void Restart()
 		{
-			_score.Reset();
-			foreach (var bubbleSlot in _bubbleSlots)
-			{
-					Destroy(bubbleSlot.View().gameObject);
-			}
-
-			_bubbleAmmo.Clear();
-
-			Create();
-
-			_isLevelCompleted = false;
+			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
 
 		public void LevelCompleted()
@@ -210,8 +201,18 @@ namespace BubblePops.Board
       else
       {
         SearchHangingBubbles();
+
+				if (NoMoreBubblesLeft())
+				{
+					LevelCompleted();
+				}
       }
     }
+
+		private bool NoMoreBubblesLeft()
+		{
+			return _bubbleSlots.Take(6).All(slot => slot.IsEmpty());
+		}
 
 		private List<BubbleSlot> GetAdjacentBubbles(BubbleSlot bubbleSlot)
 		{
