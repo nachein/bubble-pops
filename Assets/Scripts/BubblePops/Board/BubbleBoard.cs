@@ -144,7 +144,7 @@ namespace BubblePops.Board
       var bubbleSlot = _bubbleSlots[Array.IndexOf(_bubbleSlots, bubbleSlotView.BubbleSlot())];
       bubbleSlot.PlaceBubble(bubbleConfig);
 
-      var adjacentBubblesWithSameScore = GetAdjacentBubbles(bubbleSlot, new List<BubbleSlot> { bubbleSlot });
+      var adjacentBubblesWithSameScore = GetAdjacentBubblesWithSameScore(bubbleSlot, new List<BubbleSlot> { bubbleSlot });
       if (adjacentBubblesWithSameScore.Count > 1)
       {
         _score.AddScore(bubbleConfig.number * adjacentBubblesWithSameScore.Count);
@@ -167,8 +167,11 @@ namespace BubblePops.Board
 
         if (newBubbleNumber == 2048)
         {
-          // TODO: pop adjacents
-
+					var adjacentsWithBubble = GetAdjacentBubbles();
+					foreach (var adjacentBubble in adjacentsWithBubble) 
+					{
+						adjacentBubble.Pop();
+					}
         }
 
         RemoveEmptyRows();
@@ -181,6 +184,13 @@ namespace BubblePops.Board
         SearchHangingBubbles();
       }
     }
+
+		private List<BubbleSlot> GetAdjacentBubbles(BubbleSlot bubbleSlot)
+		{
+			var adjacentIndexes = GetAdjacentIndexes(bubbleSlot);
+
+			return adjacentIndexes.Select(i => _bubbleSlots[i]).Where(slot => slot.HasBubble()).ToList();
+		}
 
     private void SearchHangingBubbles()
     {
@@ -293,7 +303,7 @@ namespace BubblePops.Board
       }
     }
 
-    private List<BubbleSlot> GetAdjacentBubbles(BubbleSlot bubbleSlot, List<BubbleSlot> knownAdjacents)
+    private List<BubbleSlot> GetAdjacentBubblesWithSameScore(BubbleSlot bubbleSlot, List<BubbleSlot> knownAdjacents)
     {
       var newAdjacentBubbleSlots = new List<BubbleSlot>();
       var adjacentIndexes = GetAdjacentIndexes(bubbleSlot);
@@ -314,7 +324,7 @@ namespace BubblePops.Board
       var result = new List<BubbleSlot>();
       foreach (var newSlot in newAdjacentBubbleSlots)
       {
-        var newSlotAdjacentBubbles = GetAdjacentBubbles(newSlot, knownAdjacents.Concat(newAdjacentBubbleSlots).ToList());
+        var newSlotAdjacentBubbles = GetAdjacentBubblesWithSameScore(newSlot, knownAdjacents.Concat(newAdjacentBubbleSlots).ToList());
         foreach (var newSlotAdjacentBubble in newSlotAdjacentBubbles)
         {
           if (!result.Any(slot => slot.Id() == newSlotAdjacentBubble.Id()))
