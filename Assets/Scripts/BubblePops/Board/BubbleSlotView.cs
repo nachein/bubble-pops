@@ -43,9 +43,9 @@ namespace BubblePops.Board
 			return _bubbleSlot.IsEmpty ();
 		}
 
-		public void ActivatePreview ()
+		public void ActivatePreview (BubbleConfigItem config)
 		{
-			_renderer.color = new Color (_renderer.color.r, _renderer.color.g, _renderer.color.b, 1f);
+			_renderer.color = new Color (config.color.r, config.color.g, config.color.b, 0.5f);
 		}
 
 		public void DeactivatePreview ()

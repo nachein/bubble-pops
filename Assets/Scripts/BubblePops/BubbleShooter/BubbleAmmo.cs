@@ -47,6 +47,11 @@ namespace BubblePops.BubbleShooter
 			return ammoToShoot;
 		}
 
+		public BubbleConfigItem GetCurrentAmmoConfig()
+		{
+			return _currentBubbleAmmo.BubbleConfig();
+		}
+
 		private BubbleConfigItem GetRandomAmmoBubbleConfig ()
 		{
 			var random = new System.Random (Guid.NewGuid ().GetHashCode ());

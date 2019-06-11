@@ -54,7 +54,7 @@ namespace BubblePops.Board
       DeactivateBubbleSlotPreview();
 
       _activatedSlotPreview = bubbleSlot;
-      _activatedSlotPreview.ActivatePreview();
+      _activatedSlotPreview.ActivatePreview(_bubbleAmmo.GetCurrentAmmoConfig());
     }
 
     private void DeactivateBubbleSlotPreview()
