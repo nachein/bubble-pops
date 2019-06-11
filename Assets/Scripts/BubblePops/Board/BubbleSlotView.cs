@@ -6,67 +6,67 @@ using UnityEngine;
 
 namespace BubblePops.Board
 {
-    public class BubbleSlotView : MonoBehaviour
-    {
+	public class BubbleSlotView : MonoBehaviour
+	{
 		[SerializeField] SpriteRenderer _renderer;
-    	[SerializeField] TextMeshPro _text;
+		[SerializeField] TextMeshPro _text;
 
 		private BubbleSlot _bubbleSlot;
 
-        public void SetBubbleColor(Color32 color)
-        {
-            _renderer.color = color;
-        }
+		public void SetBubbleColor (Color32 color)
+		{
+			_renderer.color = color;
+		}
 
-        public void SetBubbleNumber(string number)
-        {
-            _text.SetText(number);
-        }
-		
-		public void SetBubbleSlot(BubbleSlot bubbleSlot)
-        {
-            _bubbleSlot = bubbleSlot;
-        }
+		public void SetBubbleNumber (string number)
+		{
+			_text.SetText (number);
+		}
 
-		public BubbleSlot BubbleSlot()
+		public void SetBubbleSlot (BubbleSlot bubbleSlot)
+		{
+			_bubbleSlot = bubbleSlot;
+		}
+
+		public BubbleSlot BubbleSlot ()
 		{
 			return _bubbleSlot;
 		}
 
-		public bool HasBubble()
+		public bool HasBubble ()
 		{
-			return _bubbleSlot.HasBubble();
+			return _bubbleSlot.HasBubble ();
 		}
 
-		public bool IsEmpty()
+		public bool IsEmpty ()
 		{
-			return _bubbleSlot.IsEmpty();
+			return _bubbleSlot.IsEmpty ();
 		}
 
-		public void ActivatePreview()
+		public void ActivatePreview ()
 		{
-			_renderer.color = new Color(_renderer.color.r, _renderer.color.g, _renderer.color.b, 1f);
+			_renderer.color = new Color (_renderer.color.r, _renderer.color.g, _renderer.color.b, 1f);
 		}
 
-        public void DeactivatePreview()
+		public void DeactivatePreview ()
 		{
-			_renderer.color = new Color(_renderer.color.r, _renderer.color.g, _renderer.color.b, 0f);
+			_renderer.color = new Color (_renderer.color.r, _renderer.color.g, _renderer.color.b, 0f);
 		}
 
-        public bool IsReserved()
-        {
-            return _bubbleSlot.IsReserved();
-        }
-
-		public void Reserve()
-        {
-            _bubbleSlot.Reserve();
-        }
-
-		public void Pop()
+		public bool IsReserved ()
 		{
-			_text.SetText(string.Empty);
-			_renderer.color = new Color(1f,1f,1f, 0f);
+			return _bubbleSlot.IsReserved ();
 		}
-    }
+
+		public void Reserve ()
+		{
+			_bubbleSlot.Reserve ();
+		}
+
+		public void Pop ()
+		{
+			_text.SetText (string.Empty);
+			_renderer.color = new Color (1f, 1f, 1f, 0f);
+		}
+	}
 }
