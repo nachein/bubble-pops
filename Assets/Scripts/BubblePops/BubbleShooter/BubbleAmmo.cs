@@ -67,8 +67,7 @@ namespace BubblePops.BubbleShooter
 
 		private Vector3 NextAmmoPosition ()
 		{
-			return CurrentAmmoPosition () + Vector3.left * _ammoSize;
+			return transform.position + Vector3.left * 0.75f;
 		}
-
 	}
 }
