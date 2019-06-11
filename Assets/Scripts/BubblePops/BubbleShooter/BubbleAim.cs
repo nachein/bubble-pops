@@ -56,9 +56,9 @@ namespace BubblePops.BubbleShooter
 					_bubbleShoot.Shoot(_aimTarget);
 					_aimTarget = null;
 					_waitForBubbleToArrive = true;
-					OnNoBubbleSlotPreviewActivated();
 				}
 
+				OnNoBubbleSlotPreviewActivated();
 			}
 			else
 			{
@@ -143,8 +143,26 @@ namespace BubblePops.BubbleShooter
 
 							break;
 						}
+
+						if (IsAimingAtUpperEnd(reflectionHit)) 
+						{
+							aimLineRenderer.SetPosition (2, aimHit.point);
+							_aimTarget = null;
+							OnNoBubbleSlotPreviewActivated();
+
+							break;
+						}
 					}
 
+					break;
+				}
+
+				if (IsAimingAtUpperEnd(aimHit)) 
+				{
+					aimLineRenderer.SetPosition (1, aimHit.point);
+					aimLineRenderer.SetPosition (2, aimHit.point);
+					_aimTarget = null;
+					OnNoBubbleSlotPreviewActivated();
 					break;
 				}
 			}
@@ -185,6 +203,11 @@ namespace BubblePops.BubbleShooter
 		private bool IsAimingAtWall (RaycastHit2D hit)
 		{
 			return hit.transform.gameObject.tag == Tags.BOUNCE_SIDE;
+		}
+
+		private bool IsAimingAtUpperEnd(RaycastHit2D hit)
+		{
+			return hit.transform.gameObject.tag == Tags.UPPER_END;
 		}
 
 		private void BubbleAddedToBoard(BubbleSlotView bubbleSlotView, BubbleConfigItem bubbleConfig)
