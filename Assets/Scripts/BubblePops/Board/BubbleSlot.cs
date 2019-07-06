@@ -1,5 +1,6 @@
 using System;
 using BubblePops.ScriptableObjects;
+using UnityEngine;
 
 namespace BubblePops.Board
 {
@@ -60,11 +61,11 @@ namespace BubblePops.Board
             return _view;
         }
 
-        public void Pop()
+        public void Pop(BubbleSlotView mergedBubbleSlot)
         {
+            _view.Pop(mergedBubbleSlot);
             _isReserved = false;
             _bubbleConfig = null;
-            _view.Pop();
         }
     }
 

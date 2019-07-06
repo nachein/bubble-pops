@@ -182,16 +182,16 @@ namespace BubblePops.Board
         var otherAdjacentsToPop = adjacentBubblesWithSameScore.Where(adjacent => adjacent.Id() != bubbleToMerge.Id()).ToList();
         foreach (var otherAdjacent in otherAdjacentsToPop)
         {
-          otherAdjacent.Pop();
+          otherAdjacent.Pop(bubbleToMerge.View());
         }
 
         if (newBubbleNumber == 2048)
         {
-					var adjacentsWithBubble = GetAdjacentBubbles(bubbleToMerge);
-					foreach (var adjacentBubble in adjacentsWithBubble) 
-					{
-						adjacentBubble.Pop();
-					}
+			var adjacentsWithBubble = GetAdjacentBubbles(bubbleToMerge);
+			foreach (var adjacentBubble in adjacentsWithBubble) 
+			{
+				adjacentBubble.Pop(null);
+			}
         }
 
         RemoveEmptyRows();
@@ -236,7 +236,7 @@ namespace BubblePops.Board
         {
           var dropBubble = Instantiate(_bubbleDropPrefab, bubbleSlot.View().transform.position, Quaternion.identity);
           dropBubble.SetBubbleConfig(bubbleSlot.BubbleConfig());
-          bubbleSlot.Pop();
+          bubbleSlot.Pop(null);
         }
       }
     }

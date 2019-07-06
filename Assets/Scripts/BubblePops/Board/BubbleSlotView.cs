@@ -11,6 +11,7 @@ namespace BubblePops.Board
 	{
 		[SerializeField] SpriteRenderer _renderer;
 		[SerializeField] TextMeshPro _text;
+		[SerializeField] BubblePopView _bubblePop;
 
 		private BubbleSlot _bubbleSlot;
 
@@ -67,10 +68,19 @@ namespace BubblePops.Board
 			_bubbleSlot.Reserve ();
 		}
 
-		public void Pop ()
+		public void Pop(BubbleSlotView mergedBubbleSlot)
 		{
-			_text.SetText (string.Empty);
-			_renderer.color = new Color (1f, 1f, 1f, 0f);
+			_text.SetText(string.Empty);
+			_renderer.color = new Color(1f,1f,1f, 0f);
+
+			if (mergedBubbleSlot != null)
+				SpawnBubblePop(mergedBubbleSlot.transform.position);
 		}
-	}
+
+        private void SpawnBubblePop(Vector3 position)
+        {
+			var bubblePop = Instantiate(_bubblePop, transform.position, Quaternion.identity);
+            bubblePop.Pop(_bubbleSlot.BubbleConfig(), position);
+        }
+    }
 }

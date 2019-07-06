@@ -246,6 +246,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _renderer: {fileID: 212308321982165644}
   _text: {fileID: 114244867637851402}
+  _bubblePop: {fileID: 114936735406893706, guid: bfc9329331fb7a44186ac13c9a36bc5a,
+    type: 2}
 --- !u!212 &212308321982165644
 SpriteRenderer:
   m_ObjectHideFlags: 1
