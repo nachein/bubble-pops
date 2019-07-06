@@ -6,6 +6,7 @@ using BubblePops.ScriptableObjects;
 using System;
 using BubblePops.BubbleShooter;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 namespace BubblePops.Board
 {
@@ -286,7 +287,7 @@ namespace BubblePops.Board
       }
 
       var emptyRowsCount = (_bubbleSlots.Length - 1 - lastIndexWithoutBubble) / _boardWidth;
-      if (emptyRowsCount == 0)
+      if (emptyRowsCount < 2)
         return;
 
       var rowsToDelete = emptyRowsCount - 1;
@@ -300,7 +301,7 @@ namespace BubblePops.Board
       Array.Copy(_bubbleSlots, updatedBubbleSlots, updatedBubbleSlots.Length);
       _bubbleSlots = updatedBubbleSlots;
 
-      _bubbleSlotsContainer.position -= Vector3.up * _bubbleSize * rowsToDelete;
+      _bubbleSlotsContainer.DOMoveY(_bubbleSlotsContainer.position.y - _bubbleSize * rowsToDelete, 0.25f);
     }
 
     private bool HasAdjacentWithNumber(BubbleSlot bubbleSlot, int bubbleNumber)
@@ -324,7 +325,7 @@ namespace BubblePops.Board
       Array.Copy(_bubbleSlots, updatedBubbleSlots, _bubbleSlots.Length);
       _bubbleSlots = updatedBubbleSlots;
 
-      _bubbleSlotsContainer.position += Vector3.up * _bubbleSize;
+      _bubbleSlotsContainer.DOMoveY(_bubbleSlotsContainer.position.y + _bubbleSize, 0.25f);
 
       var newRowIndex = _bubbleSlots.Length / _boardWidth - 1;
       for (int x = 0, i = updatedBubbleSlots.Length - _boardWidth; x < _boardWidth; x++)
