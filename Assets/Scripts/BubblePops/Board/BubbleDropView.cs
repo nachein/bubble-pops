@@ -11,6 +11,7 @@ namespace BubblePops.Board
 	{
 		[SerializeField] SpriteRenderer _renderer;
 		[SerializeField] TextMeshPro _text;
+		[SerializeField] BubblePopView _bubblePop;
 
 		private BubbleConfigItem _bubbleConfig;
 
@@ -21,12 +22,19 @@ namespace BubblePops.Board
 			_text.SetText (bubbleConfigItem.display);
 		}
 
-		public void Pop ()
-		{
-			Destroy (gameObject);
-		}
+        public void Pop()
+        {
+			SpawnBubblePop();
+            Destroy(gameObject);
+        }
 
-		public int BubbleNumber ()
+		private void SpawnBubblePop()
+        {
+			var bubblePop = Instantiate(_bubblePop, transform.position, Quaternion.identity);
+            bubblePop.InstantPop(_bubbleConfig);
+        }
+
+        public int BubbleNumber()
 		{
 			return _bubbleConfig.number;
 		}

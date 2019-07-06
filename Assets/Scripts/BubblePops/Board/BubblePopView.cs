@@ -19,6 +19,11 @@ namespace BubblePops.Board
 			transform.DOMove(towards, 0.25f).OnComplete(() => PlayPopParticles(config.color));
 		}
 
+		public void InstantPop(BubbleConfigItem config) 
+		{
+			PlayPopParticles(config.color);
+		}
+
 		private void PlayPopParticles(Color32 color)
 		{
 			_renderer.enabled = false;
