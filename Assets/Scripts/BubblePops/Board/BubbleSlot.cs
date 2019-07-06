@@ -24,6 +24,7 @@ namespace BubblePops.Board
         	_view.SetBubbleColor(bubbleConfig.color);
         	_view.SetBubbleNumber(bubbleConfig.display);
             _isReserved = false;
+            _view.PlayBubbleAddedSound();
         }
 
         public bool IsEmpty()

@@ -12,6 +12,7 @@ namespace BubblePops.Board
 		[SerializeField] SpriteRenderer _renderer;
 		[SerializeField] TextMeshPro _text;
 		[SerializeField] BubblePopView _bubblePop;
+		[SerializeField] AudioSource _audioSource;
 
 		private BubbleSlot _bubbleSlot;
 
@@ -30,7 +31,12 @@ namespace BubblePops.Board
 			_bubbleSlot = bubbleSlot;
 		}
 
-		public BubbleSlot BubbleSlot ()
+        internal void PlayBubbleAddedSound()
+        {
+            _audioSource.PlayOneShot(_audioSource.clip);
+        }
+
+        public BubbleSlot BubbleSlot()
 		{
 			return _bubbleSlot;
 		}

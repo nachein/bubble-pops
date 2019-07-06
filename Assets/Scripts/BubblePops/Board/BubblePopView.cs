@@ -10,6 +10,7 @@ namespace BubblePops.Board
 		[SerializeField] SpriteRenderer _renderer;
     	[SerializeField] TextMeshPro _text;
 		[SerializeField] ParticleSystem _particleSystem;
+		[SerializeField] AudioSource _audioSource;
 
 		public void Pop(BubbleConfigItem config, Vector3 towards) 
 		{
@@ -32,6 +33,7 @@ namespace BubblePops.Board
 			ParticleSystem.MainModule main = _particleSystem.main;
 			main.startColor = new ParticleSystem.MinMaxGradient(color);
 			_particleSystem.Play();
+			_audioSource.PlayOneShot(_audioSource.clip);
 
 			Invoke("Destroy", 1f);
 		}
