@@ -201,6 +201,7 @@ namespace BubblePops.Board
       else
       {
         SearchHangingBubbles();
+		RemoveEmptyRows();
 
 				if (NoMoreBubblesLeft())
 				{
@@ -292,7 +293,7 @@ namespace BubblePops.Board
 
       foreach (var bubbleSlot in _bubbleSlots.Reverse().Take(rowsToDelete * _boardWidth))
       {
-        Destroy(bubbleSlot.View());
+        Destroy(bubbleSlot.View().gameObject);
       }
 
       var updatedBubbleSlots = new BubbleSlot[_bubbleSlots.Length - rowsToDelete * _boardWidth];
